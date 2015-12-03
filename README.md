@@ -21,12 +21,14 @@ Undoes changes, either local-repo wide or on a single file. Use like so:
 # Automatically save the user's work in a stash, then
 # Instead of git stash; git reset --hard HEAD, just type:
 > gut retreat
+> gut ret
 
 # Just undo the changes I made to one file.
 # Automatically save a stash of the user's work first
 # Rather than git checkout FILE (side note: why is it not git reset FILE? or is it?)
 # Instead, just type:
 > gut retreat FILE
+> gut ret FILE
 ```
 
 ### Switch
@@ -34,6 +36,7 @@ Change your local copy to another branch. Will detect if it needs to create a ne
 
 ```
 > gut switch BRANCH
+> gut sw BRANCH
 ```
 
 ### Sync
@@ -43,10 +46,18 @@ Pushes your commited changes upstream. If the remote branch doesn't exist, will 
 # If remote branch exists
 > gut sync
 Done
+> gut sy
+Done
 
 # If remote branch doesn't exists
 > gut sync
 The branch foobar doesn't exist on the remote. Create it? [Y/n] y
 Done
+> gut sy
+The branch foobar doesn't exist on the remote. Create it? [Y/n] y
+Done
 ```
+
+## Todo
+Port to [GitPython](https://pypi.python.org/pypi/GitPython/1.0.1) for better (cleaner) integration.
 
