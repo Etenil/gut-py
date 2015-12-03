@@ -49,18 +49,18 @@ def get_current_branch():
     return branch.decode('ascii').strip()
 
 if len(sys.argv) > 1:
-    if sys.argv[1] == 'retreat' or sys.argv[1] == 'ret':
+    if sys.argv[1] in ['retreat', 'ret']:
         if len(sys.argv) > 2:
             subprocess.call(['git', 'checkout', sys.argv[2]])
         else:
             subprocess.call(['git', 'stash'])
             subprocess.call(['git', 'reset', 'HEAD'])
-    elif sys.argv[1] == 'switch' and len(sys.argv) > 2:
+    elif sys.argv[1] in ['switch', 'sw'] and len(sys.argv) > 2:
         if has_branch(sys.argv[2]):
             subprocess.call(['git', 'checkout', sys.argv[2]])
         else:
             subprocess.call(['git', 'checkout', '-b', sys.argv[2]])
-    elif sys.argv[1] == 'sync':
+    elif sys.argv[1] in ['sync', 'sy']:
         branch = get_current_branch()
         if has_branch('origin/' + branch, True):
             subprocess.call(['git', 'push'])
