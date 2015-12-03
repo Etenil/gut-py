@@ -34,7 +34,7 @@ def get_branch_list(remote = False):
     proc = subprocess.Popen(args, stdout=subprocess.PIPE)
     branches = proc.stdout.read()
     branches = branches.decode('ascii').split("\n")
-    return map(lambda x: x.strip(), branches)
+    return map(lambda x: x.replace('*', '').strip(), branches)
     
 def has_branch(branch_name, remote = False):
     branches = get_branch_list(remote)
