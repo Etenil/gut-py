@@ -35,13 +35,19 @@ def get_branch_list(remote = False):
     branches = proc.stdout.read()
     branches = branches.decode('ascii').split("\n")
     return map(lambda x: x.replace('*', '').strip(), branches)
-    
+
 def has_branch(branch_name, remote = False):
     branches = get_branch_list(remote)
     for branch in branches:
         if branch == branch_name:
             return True
     return False
+
+def stash_changes():
+    args = ['git', 'stash']
+    proc = subprocess.Popen(args, stdout=subprocess.PIPE)
+    result = proc.stdout.read().decode('ascii')
+    return 'No local changes' not in result
 
 def get_current_branch():
     proc = subprocess.Popen(['git', 'rev-parse', '--abbrev-ref', 'HEAD'], stdout=subprocess.PIPE)
@@ -63,6 +69,10 @@ if len(sys.argv) > 1:
     elif sys.argv[1] in ['sync', 'sy']:
         branch = get_current_branch()
         if has_branch('origin/' + branch, True):
+            stashed = stash_changes()
+            subprocess.call(['git', 'pull'])
+            if stashed:
+                subprocess.call(['git', 'stash', 'pop'])
             subprocess.call(['git', 'push'])
         else:
             if query_yes_no("The branch " + branch + " doesn't exist on the remote. Create it?"):
@@ -76,4 +86,3 @@ if len(sys.argv) > 1:
         exit(retcode)
 else:
     exit(subprocess.call(['git']))
-
